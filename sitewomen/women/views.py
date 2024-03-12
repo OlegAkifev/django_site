@@ -24,7 +24,7 @@ categories_db = [
 
 
 def index(request):
-    posts = Women.objects.filter(is_published=1)
+    posts = Women.published.all()
     data = {'title': 'Главная страница',
             'menu': menu,
             'post': posts,
