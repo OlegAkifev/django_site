@@ -5,7 +5,7 @@
 	{% for p in post %}
 		<li>
             <div class="article-panel">
-                <p class="first">Категория: {{ p.category }}</p>
+                <p class="first">Категория: {{ p.category.name }}</p>
                 <p class="last">Дата: {{ p.time_update|date:"d-m-Y H:i:s" }}</p>
             </div>
 			<h2> {{ p.title }}</h2>
