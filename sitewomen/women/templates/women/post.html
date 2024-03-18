@@ -9,6 +9,8 @@
                     <li><a href="{{ t.get_absolute_url }}">{{ t.tag }}</a></li>
                 {% endfor %}
             </ul>
+        {% else %}
+            <a>Не принадлежит к каким-либо тегам</a>
         {% endif %}
     {% endwith %}
 {% endblock breadcrumbs %}
