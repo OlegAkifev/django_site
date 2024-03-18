@@ -2,8 +2,9 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpRespons
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template.loader import render_to_string
+from wheel.vendored.packaging.tags import Tag
 
-from women.models import Women, Category
+from women.models import Women, Category, TagPost
 
 menu = [{'title': "О сайте", 'url_name': 'about'}, {'title': "Добавить статью", 'url_name': 'add_page'},
         {'title': "Обратная связь", 'url_name': 'contact'}, {'title': "Войти", 'url_name': 'login'}]
@@ -65,4 +66,16 @@ def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Страница не найдена</h1>")
 
 
+def show_tag_postlist(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)
+    posts = tag.tags.filter(is_published=Women.Status.PUBLISHED)
+    # posts = Women.objects.all()
+    data = {
+        'title': f"Тег: {tag.tag}",
+        'menu': menu,
+        'post': posts,
+        'category_selected': None,
+    }
+
+    return render(request, 'women/index.html', data)
 

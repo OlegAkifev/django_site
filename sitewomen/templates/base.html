@@ -31,7 +31,7 @@
 <!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
-		{% if category_selected == 0 or category_selected is None %}
+		{% if category_selected == 0 %}
 			<li class="selected">Все категории </li>
 		{% else %}
 		<li><a href="{% url 'home' %}">Все категории</a></li>
@@ -42,6 +42,9 @@
 		<p>Наш канал</p>
 		<a class="share-yt" href="https://www.youtube.com/channel/UClJzWfGWuGJL2t-3dYKcHTA/playlists" target="_blank" rel="nofollow"></a>
 		</li>
+
+        <li>{% show_all_tags %}</li>
+
 	</ul>
 </td>
 <!-- Конец Sidebar'а -->
