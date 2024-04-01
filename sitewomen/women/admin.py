@@ -9,7 +9,8 @@ class WomenAdmin(admin.ModelAdmin):
     ordering = ('-time_create', 'title',)
     list_editable = ('is_published',)
     list_per_page = 4
-    actions = ['set_published', 'set_draft']
+    actions = ('set_published', 'set_draft',)
+    search_fields = ('title',)
 
     @admin.display(description='Краткое описание', ordering='content')
     def brief_info(self, women: Women):
