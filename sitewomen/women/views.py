@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from wheel.vendored.packaging.tags import Tag
 
+from women.forms import AddPostForm
 from women.models import Women, Category, TagPost
 
 menu = [{'title': "О сайте", 'url_name': 'about'}, {'title': "Добавить статью", 'url_name': 'add_page'},
@@ -39,7 +40,16 @@ def show_post(request, post_slug):
 
 
 def add_page(request):
-    data = {'menu': menu, 'title': 'Добавление статьи'}
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = AddPostForm()
+
+    data = {'menu': menu,
+            'form': form,
+            'title': 'Добавление статьи'}
     return render(request, 'women/add_page.html', context=data)
 
 
