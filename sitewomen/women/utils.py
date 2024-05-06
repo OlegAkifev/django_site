@@ -3,6 +3,8 @@ menu = [{'title': "О сайте", 'url_name': 'about'}, {'title': "Добави
 
 
 class DataMixin:
+    paginate_by = 4
+
     title_page = None
     category_selected = None
     extra_context = {}
