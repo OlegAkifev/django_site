@@ -76,18 +76,6 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-# def show_category(request, category_slug):
-#     category = get_object_or_404(Category, slug=category_slug)
-#     posts = Women.published.filter(category_id=category.pk).select_related('category')
-#     data = {'title': f'Рубрика: {category.name}',
-#             'menu': menu,
-#             'post': posts,
-#             'category_selected': category.pk,
-#             }
-#
-#     return render(request, 'women/index.html', context=data)
-
-
 class WomenCategory(ListView):
     template_name = 'women/index.html'
     context_object_name = 'posts'
