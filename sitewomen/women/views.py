@@ -1,12 +1,10 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, FormView
-from wheel.vendored.packaging.tags import Tag
+from django.views.generic import ListView, DetailView, FormView
 
 from women.forms import AddPostForm, UploadFileForm
-from women.models import Women, Category, TagPost, UploadedFiles
+from women.models import Women, TagPost, UploadedFiles
 
 menu = [{'title': "О сайте", 'url_name': 'about'}, {'title': "Добавить статью", 'url_name': 'add_page'},
         {'title': "Обратная связь", 'url_name': 'contact'}, {'title': "Войти", 'url_name': 'login'}]
@@ -53,29 +51,6 @@ class ShowPost(DetailView):
     def get_object(self, queryset=None):
         return get_object_or_404(Women.published, slug=self.kwargs[self.slug_url_kwarg])
 
-
-# class AddPage(View):
-#     def get(self, request):
-#         form = AddPostForm()
-#         data = {'menu': menu,
-#                 'form': form,
-#                 'title': 'Добавление статьи'}
-#
-#         return render(request, 'women/add_page.html', context=data)
-#
-#     def post(self, request):
-#         form = AddPostForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             print(form.cleaned_data)
-#             form.save()
-#             return redirect('home')
-#
-#         data = {'menu': menu,
-#                 'form': form,
-#                 'title': 'Добавление статьи'
-#                 }
-#
-#         return render(request, 'women/add_page.html', context=data)
 
 class AddPage(FormView):
     form_class = AddPostForm
