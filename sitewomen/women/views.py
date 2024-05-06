@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, FormView
 from wheel.vendored.packaging.tags import Tag
 
 from women.forms import AddPostForm, UploadFileForm
@@ -37,19 +38,6 @@ def about(request):
                   {'title': 'О сайте', 'menu': menu, 'form': form})
 
 
-# def show_post(request, post_slug):
-#     post = get_object_or_404(Women, slug=post_slug)
-#
-#     data = {
-#         'title': post.title,
-#         'menu': menu,
-#         'post': post,
-#         'category_selected': 1,
-#     }
-#
-#     return render(request, 'women/post.html', data)
-
-
 class ShowPost(DetailView):
     model = Women
     template_name = 'women/post.html'
@@ -66,28 +54,43 @@ class ShowPost(DetailView):
         return get_object_or_404(Women.published, slug=self.kwargs[self.slug_url_kwarg])
 
 
-class AddPage(View):
-    def get(self, request):
-        form = AddPostForm()
-        data = {'menu': menu,
-                'form': form,
-                'title': 'Добавление статьи'}
+# class AddPage(View):
+#     def get(self, request):
+#         form = AddPostForm()
+#         data = {'menu': menu,
+#                 'form': form,
+#                 'title': 'Добавление статьи'}
+#
+#         return render(request, 'women/add_page.html', context=data)
+#
+#     def post(self, request):
+#         form = AddPostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             print(form.cleaned_data)
+#             form.save()
+#             return redirect('home')
+#
+#         data = {'menu': menu,
+#                 'form': form,
+#                 'title': 'Добавление статьи'
+#                 }
+#
+#         return render(request, 'women/add_page.html', context=data)
 
-        return render(request, 'women/add_page.html', context=data)
+class AddPage(FormView):
+    form_class = AddPostForm
+    template_name = 'women/add_page.html'
+    success_url = reverse_lazy('home')
+    extra_context = {
+        'menu': menu,
+        'title': 'Добавление статьи',
+    }
 
-    def post(self, request):
-        form = AddPostForm(request.POST, request.FILES)
-        if form.is_valid():
-            print(form.cleaned_data)
-            form.save()
-            return redirect('home')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
-        data = {'menu': menu,
-                'form': form,
-                'title': 'Добавление статьи'
-                }
 
-        return render(request, 'women/add_page.html', context=data)
 
 
 def contact(request):
