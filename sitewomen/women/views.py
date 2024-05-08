@@ -19,14 +19,22 @@ class WomenHome(DataMixin, ListView):
         return Women.published.all().select_related('category')
 
 
-def about(request):
-    contact_list = Women.published.all()
-    paginator = Paginator(contact_list, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+# def about(request):
+#     contact_list = Women.published.all()
+#     paginator = Paginator(contact_list, 3)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#
+#
+#     return render(request, 'women/about.html',
+#                   {'title': 'О сайте', 'page_obj': page_obj, 'menu': menu})
 
-    return render(request, 'women/about.html',
-                  {'title': 'О сайте', 'page_obj': page_obj})
+class AboutPage(DataMixin, ListView):
+    template_name = 'women/about.html'
+    title_page = 'О сайте'
+
+    def get_queryset(self):
+        return Women.published.all()
 
 
 class ShowPost(DataMixin, DetailView):
