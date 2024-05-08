@@ -6,14 +6,18 @@
         <p>{{ item.pk }} : {{ item.title  }}</p>
     {% endfor %}
 
-    <nav>
-    <ul>
-        {% for p in paginator.page_range %}
-            <li>
-            <a href="?page={{ p }}">{{ p }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-    </nav>
+{#    <nav class="list-pages">#}
+{#    <ul>#}
+{#        {% for p in page_obj.paginator.page_range %}#}
+{#            {% if page_obj.number == p %}#}
+{#                <li class="page-num page-num-selected">{{ p }}</li>#}
+{#            {% elif p >= page_obj.number|add:-3 and p <= page_obj.number|add:3 %}#}
+{#                <li class="page-num">#}
+{#                    <a href="?page={{ p }}">{{ p }}</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#    </nav>#}
 
 {% endblock %}
